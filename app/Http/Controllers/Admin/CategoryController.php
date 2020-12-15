@@ -48,7 +48,9 @@ class CategoryController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('categories.index');
+        return redirect()
+            ->route('categories.index')
+            ->withSuccess('Added successfully!');
     }
 
     /**
@@ -98,7 +100,9 @@ class CategoryController extends Controller
             'description' => $request->description
         ]);
         
-        return redirect()->route('categories.index');
+        return redirect()
+            ->route('categories.index')
+            ->withSuccess('Updated successfully!');
     }
 
     /**
@@ -110,7 +114,10 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         DB::table('categories')->where('id',$id)->delete();
-        return redirect()->route('categories.index');
+        
+        return redirect()
+            ->route('categories.index')
+            ->withSuccess('Successfully deleted!');
     }
 
     public function search(Request $request)

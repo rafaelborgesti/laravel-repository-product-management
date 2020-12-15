@@ -27,8 +27,8 @@
             <input type="submit" class="btn btn-success" value="Search">
         </form>
 
-        @if (isset($search))
-            <p>Resultados para: <strong>{{ $search }}</strong></p>
+        @if (isset($data))
+            <a href="{{ route('categories.index') }}">(x) Clear Search Results</a>
         @endif
 
     </div>
@@ -37,6 +37,9 @@
 <div class="card card-outline card-success">
     <!-- /.card-header -->
     <div class="card-body">
+
+        @include('admin.includes.alerts')
+
         <table class="table table-striped">
             <thead>
                 <tr>
