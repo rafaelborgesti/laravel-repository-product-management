@@ -7,6 +7,11 @@
         <a href="{{ route('categories.create') }}" class="btn btn-success">Add</a>
         Categories
     </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Categorias</li>
+    </ol>
 @stop
 
 @section('content')
@@ -61,7 +66,7 @@
         @else
             {!! $categories->links() !!}
         @endif
-        
+
     </div>
 </div>
 <!-- /.card -->

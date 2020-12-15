@@ -5,6 +5,12 @@
 @section('content_header')
     <h1>Edit categoriy: {{ $category->title }}</h1>
     
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Categories</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+
 @stop
 
 @section('content')
