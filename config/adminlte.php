@@ -238,7 +238,7 @@ return [
         ],
         [
             'text' => 'Categories',
-            'url'  => 'admin/cotegories',
+            'url'  => 'admin/categories',
         ],
         [
             'text'        => 'Products',
