@@ -11,6 +11,24 @@
 
 @section('content')
 
+
+<div class="card card-outline card-success">
+    <div class="card-body">
+        <form action="{{ route('categories.search') }}" class="form form-inline" method="POST">
+            @csrf
+            <input type="text" name="title" value="{{ $data['title'] ?? '' }}" placeholder="Title" class="form-control">
+            <input type="text" name="url" value="{{ $data['url'] ?? '' }}" placeholder="URL" class="form-control">
+            <input type="text" name="description"value="{{ $data['description'] ?? '' }}"  placeholder="Description" class="form-control">
+            <input type="submit" class="btn btn-success" value="Search">
+        </form>
+
+        @if (isset($search))
+            <p>Resultados para: <strong>{{ $search }}</strong></p>
+        @endif
+
+    </div>
+</div>
+
 <div class="card card-outline card-success">
     <!-- /.card-header -->
     <div class="card-body">
@@ -37,6 +55,13 @@
                 @endforeach
             </tbody>
         </table>
+        
+        @if( isset($data) )
+            {!! $categories->appends($data)->links() !!}
+        @else
+            {!! $categories->links() !!}
+        @endif
+        
     </div>
 </div>
 <!-- /.card -->

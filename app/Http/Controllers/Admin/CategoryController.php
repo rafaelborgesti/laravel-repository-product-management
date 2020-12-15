@@ -17,7 +17,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')
+            ->orderBy('id','desc')
+            ->paginate(10);
+
         return view('admin.categories.index',compact('categories'));
     }
 
@@ -39,7 +42,6 @@ class CategoryController extends Controller
      */
     public function store(StoreUpdateCategoryFormRequest $request)
     {
-
         DB::table('categories')->insert([
             'title' => $request->title,
             'url' => $request->url,
@@ -47,7 +49,6 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('categories.index');
-
     }
 
     /**
@@ -111,4 +112,21 @@ class CategoryController extends Controller
         DB::table('categories')->where('id',$id)->delete();
         return redirect()->route('categories.index');
     }
+
+    public function search(Request $request)
+    {
+        $data = $request->except('_token');
+
+        $categories = DB::table('categories')
+            ->where(function($query) use ($data){
+                if (isset($data['title'])) $query->where('title',$data['title']);
+                if (isset($data['url'])) $query->orWhere('title',$data['url']);
+                if (isset($data['description'])) $query->where('description','LIKE', "%{$data['description']}%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+
+        return view('admin.categories.index',compact('categories','data'));
+    }
+
 }

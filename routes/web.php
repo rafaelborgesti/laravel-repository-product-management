@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::match(['POST','GET'],'admin/categories/search', 'Admin\CategoryController@search')->name('categories.search');
 Route::resource('admin/categories', 'Admin\CategoryController');
 
 
