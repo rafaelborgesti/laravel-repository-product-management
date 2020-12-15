@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->product->with('category')->get();
+        $products = $this->product->with('category')->paginate(2);
         
         return view('admin.products.index',compact('products'));
     }
@@ -35,9 +35,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title','id');
-
-        return view('admin.products.create',compact('categories'));
+        return view('admin.products.create');
     }
 
     /**
@@ -79,12 +77,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::pluck('title','id');
-
         if (!$product = $this->product->find($id))
             return redirect()->back();
 
-        return view('admin.products.edit',compact('product','categories'));
+        return view('admin.products.edit',compact('product'));
     }
 
     /**
@@ -120,4 +116,32 @@ class ProductController extends Controller
             ->route('products.index')
             ->withSuccess('Successfully deleted!');
     }
+    
+    public function search(Request $request)
+    {
+
+        $filters = $request->except('_token');
+
+        $products = $this->product
+            ->with('category')
+            ->where(function($query) use ($request){
+                if ($request->has('name')){
+                    $filter = $request->name;
+                    $query->where(function($querySub) use ($filter){
+                        $querySub->where('name','LIKE',"%{$filter}%")
+                            ->orWhere('description','LIKE',"%{$filter}%");
+                    });
+                }
+                if ($request->price){
+                    $query->where('price','LIKE',"%{$request->price}%");
+                }
+                if ($request->category){
+                    $query->orWhere('category_id',$request->category);
+                }
+            })
+            ->paginate(2);
+
+        return view('admin.products.index',compact('products','filters'));
+    }
+
 }

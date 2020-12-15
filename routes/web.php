@@ -17,6 +17,7 @@ Route::resource('admin/products','Admin\ProductController');
 
 Route::get('admin', function(){
 })->name('admin');
+Route::match(['POST','GET'],'admin/products/search', 'Admin\ProductController@search')->name('products.search');
 Route::match(['POST','GET'],'admin/categories/search', 'Admin\CategoryController@search')->name('categories.search');
 Route::resource('admin/categories', 'Admin\CategoryController');
 

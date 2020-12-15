@@ -16,25 +16,28 @@
 
 @section('content')
 
-
-<?php /*
 <div class="card card-outline card-success">
     <div class="card-body">
         <form action="{{ route('products.search') }}" class="form form-inline" method="POST">
             @csrf
-            <input type="text" name="title" value="{{ $data['title'] ?? '' }}" placeholder="Title" class="form-control">
-            <input type="text" name="url" value="{{ $data['url'] ?? '' }}" placeholder="URL" class="form-control">
-            <input type="text" name="description"value="{{ $data['description'] ?? '' }}"  placeholder="Description" class="form-control">
+            <select name="category" class="form-control">
+                <option value="">Categoria</option>
+                @foreach ($categories as $id => $category)
+                    <option value="{{ $id }}" <?php echo ( isset($filters) && $filters['category'] == $id ) ? "selected" : "" ?>>{{ $category }}</option>
+                @endforeach
+            </select>
+            <input type="text" name="name" value="{{ $filters['name'] ?? '' }}" placeholder="Name:" class="form-control">
+            <input type="text" name="price" value="{{ $filters['price'] ?? '' }}" placeholder="Price:" class="form-control">
             <input type="submit" class="btn btn-success" value="Search">
         </form>
 
-        @if (isset($data))
+        @if (isset($filters))
             <a href="{{ route('products.index') }}">(x) Clear Search Results</a>
         @endif
 
     </div>
 </div>
-*/ ?>
+
 
 <div class="card card-outline card-success">
     <!-- /.card-header -->
@@ -54,7 +57,7 @@
             <tbody>
                 @foreach ($products as $product)
                 <tr>
-                    <th scope="row">{{ $product->id }}</th>
+                    <th scope="row">{{ $product->name }}</th>
                     <td>{{ $product->category->title }}</td>
                     <td>R$ {{ $product->price }}</td>
                     <td>
@@ -66,13 +69,12 @@
             </tbody>
         </table>
         
-        <?php /*
-        @if( isset($data) )
-            {!! $categories->appends($data)->links() !!}
+        @if( isset($filters) )
+            {!! $products->appends($filters)->links() !!}
         @else
-            {!! $categories->links() !!}
+            {!! $products->links() !!}
         @endif
-        */ ?>
+        
 
     </div>
 </div>

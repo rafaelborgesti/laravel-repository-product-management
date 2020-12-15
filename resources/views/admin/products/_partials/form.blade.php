@@ -7,7 +7,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::text('price', null, ['placeholder'=>'Nome','class'=>'form-control']) !!}
+    {!! Form::text('price', null, ['placeholder'=>'Price','class'=>'form-control']) !!}
 </div>
 
 <div class="form-group">
