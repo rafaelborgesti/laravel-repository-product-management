@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('admin/products','Admin\ProductController');
+Route::group(['prefix'=>'admin','namespace' => 'Admin',], function(){
+    
+    Route::resource('products','ProductController');
+    Route::match(['POST','GET'],'products/search', 'ProductController@search')->name('products.search');
 
-Route::get('admin', function(){
-})->name('admin');
-Route::match(['POST','GET'],'admin/products/search', 'Admin\ProductController@search')->name('products.search');
-Route::match(['POST','GET'],'admin/categories/search', 'Admin\CategoryController@search')->name('categories.search');
-Route::resource('admin/categories', 'Admin\CategoryController');
+    Route::match(['POST','GET'],'categories/search', 'CategoryController@search')->name('categories.search');
+    Route::resource('categories', 'CategoryController');
 
+    Route::get('admin', function(){
+    })->name('admin');
+    
+});
 
 /*
 Route::get('/', function () {
